@@ -1,0 +1,25 @@
+---
+- name: check param VAR_Zabbix40_Server_linux_gathering_dest
+  fail:
+    msg: "Parameter VAR_Zabbix40_Server_linux_gathering_dest cannot be NULL."
+  when: "(VAR_Zabbix40_Server_linux_gathering_dest is none) or (VAR_Zabbix40_Server_linux_gathering_dest == '')"
+
+- name: check param VAR_Zabbix40SV_localpkg_dst
+  fail:
+    msg: "Parameter VAR_Zabbix40SV_localpkg_dst cannot be NULL."
+  when: "(VAR_Zabbix40SV_localpkg_dst is none) or (VAR_Zabbix40SV_localpkg_dst == '')"
+
+- name: check param VAR_Zabbix40SV_localpkg_src
+  fail:
+    msg: "Parameter VAR_Zabbix40SV_localpkg_src cannot be NULL."
+  when: "(VAR_Zabbix40SV_localpkg_src is none) or (VAR_Zabbix40SV_localpkg_src == '')"
+
+- name: Remove old data
+  file:
+    path: "{{ VAR_Zabbix40_Server_linux_gathering_dest }}/{{ inventory_hostname }}/Zabbix40_Server_gathering_linux"
+    state: absent
+  delegate_to: localhost
+  become: no
+
+- name: include tasks
+  include_tasks: gather.yml

@@ -1,0 +1,4 @@
+---
+VAR_Zabbix40_Server_linux_gathering_dest: '{{ playbook_dir }}/_gathered_data'
+VAR_Zabbix40SV_localpkg_dst: /tmp
+VAR_Zabbix40SV_localpkg_src: /tmp

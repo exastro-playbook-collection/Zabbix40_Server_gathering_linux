@@ -1,0 +1,29 @@
+---
+- name: Check zabbix server installed
+  stat: path="{{ item }}"
+  with_items:
+    - /etc/my.cnf
+    - /etc/zabbix/zabbix_server.conf
+    - /etc/httpd/conf.d/zabbix.conf
+    - /etc/logrotate.d/zabbix-server
+  register: file_status
+
+- name: fail when zabbix server uninstalled
+  fail:
+    msg: "please check if zabbix server is installed."
+  with_items: "{{ file_status.results }}"
+  when: not item.stat.exists
+
+- name: import roles
+  import_role:
+    name: '{{ playbook_dir }}/roles/gathering'
+  vars:
+    VAR_gathering_definition_role_path: '{{ playbook_dir }}/roles/Zabbix40_Server_gathering_linux'
+    VAR_gathering_label: 'Zabbix40_Server_gathering_linux'
+
+- name: Copy data
+  copy:
+    src: "{{ gathered_data_dest }}/"
+    dest: "{{ VAR_Zabbix40_Server_linux_gathering_dest }}/{{ inventory_hostname }}/Zabbix40_Server_gathering_linux"
+  delegate_to: localhost
+  become: no

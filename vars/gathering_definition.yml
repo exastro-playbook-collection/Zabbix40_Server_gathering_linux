@@ -1,0 +1,15 @@
+---
+command:
+  - cat /etc/my.cnf
+  - cat /etc/zabbix/zabbix_server.conf
+  - cat /etc/zabbix/web/zabbix.conf.php
+  - cat /etc/httpd/conf.d/zabbix.conf
+  - cat /etc/logrotate.d/zabbix-server
+  - echo VAR_Zabbix40SV_localpkg_dst {{ VAR_Zabbix40SV_localpkg_dst }}
+  - echo VAR_Zabbix40SV_localpkg_src {{ VAR_Zabbix40SV_localpkg_src }}
+  - systemctl status mariadb
+  - systemctl status httpd
+  - systemctl status zabbix-server
+  - systemctl list-unit-files | grep mariadb.service
+  - systemctl list-unit-files | grep httpd.service
+  - systemctl list-unit-files | grep zabbix-server.service
